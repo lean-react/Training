@@ -1,10 +1,10 @@
-import React, {KeyboardEvent, useContext} from 'react';
-import { TodoContext } from './TodoShell';
+import React, {KeyboardEvent} from 'react';
 import { createTodo } from '../state/actions';
+import { useDispatch } from 'react-redux';
 
 const TodoInput = () => {
 
-    const { dispatch } = useContext(TodoContext);
+    const dispatch = useDispatch()
 
     const handleKey = (ev: KeyboardEvent<HTMLInputElement>) => {
         if (ev.key === 'Enter' ) {

@@ -1,13 +1,13 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { TodoContext } from './TodoShell';
-import { useTodos } from '../state/hooks';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { TodoState } from '../state/reducer';
+import { Todo } from '../models/Todo';
 
 const TodoToolbar = () => {
 
-    // const { state } = useContext(TodoContext);
-    const todos = useTodos();
+    const todos = useSelector<TodoState, Todo[]>(s => s.todos);
 
-    const activeCount = useMemo(() => todos.reduce((count,t) => t.completed ? count : count + 1, 0), todos);
+    const activeCount = useMemo(() => todos.reduce((count,t) => t.completed ? count : count + 1, 0), [todos]);
 
     return (
         <footer className={ `footer ${todos.length === 0 ?  'hidden' : '' }` }>

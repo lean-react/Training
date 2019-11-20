@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import TodoItem from './TodoItem';
-import { TodoContext } from './TodoShell';
+import { useSelector } from 'react-redux';
+import { TodoState } from '../state/reducer';
+import { Todo } from '../models/Todo';
 
 const TodoList = () => {
-    const {state } = useContext(TodoContext);
+    const todos = useSelector<TodoState, Todo[]>(s => s.todos);
 
     return (
         <ul className="todo-list">
-        { state.todos.map( t => 
+        { todos.map( t => 
             <TodoItem todo={t} key={t.id}  />    
         )}
         

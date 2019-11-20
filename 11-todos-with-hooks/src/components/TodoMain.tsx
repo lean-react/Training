@@ -1,9 +1,12 @@
 import React from 'react';
 import TodoList from './TodoList';
-import { useTodos } from '../state/hooks';
+import { useSelector } from 'react-redux';
+import { TodoState } from '../state/reducer';
+import { Todo } from '../models/Todo';
 
 const TodoMain = () => {
-    const todos = useTodos();
+    const todos = useSelector<TodoState, Todo[]>(s => s.todos);
+
     return (
         <section className={ `main ${todos.length === 0 ?  'hidden' : '' }` }>
       <input id="toggle-all" className="toggle-all" type="checkbox" />

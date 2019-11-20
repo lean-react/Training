@@ -1,27 +1,21 @@
-import React, { useReducer } from 'react';
+import React from 'react';
 import TodoInput from './TodoInput';
 import TodoMain from './TodoMain';
 import TodoToolbar from './TodoToolbar';
-import todosReducer, { TodoState, getTodos } from '../state/reducer';
-import Action from '../state/actions';
-import { VisibilityFilter } from '../models/Todo';
+import todosReducer from '../state/reducer';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 
-export type CtxType = {
-    state: TodoState,
-    dispatch: (action: Action) => void
-};
 
-export const TodoContext = React.createContext<CtxType>({ 
-    state: { todos: [], filter: VisibilityFilter.All}, 
-    dispatch: (action: Action) => {}
-});
+
+const store = createStore(todosReducer,
+    (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+    );
 
 const TodoShell = () => {
 
-    const [state, dispatch] = useReducer(todosReducer, { todos: getTodos(), filter: VisibilityFilter.All })
-
     return (
-        <TodoContext.Provider value={ {state, dispatch} }>
+        <Provider store={store}>
         <section className="todoapp">
             <header className="header">
                 <h1>todos</h1>
@@ -30,7 +24,7 @@ const TodoShell = () => {
             <TodoMain />
             <TodoToolbar />
         </section>
-        </TodoContext.Provider>
+        </Provider>
     );
 };
 

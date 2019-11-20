@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Todo } from '../models/Todo';
-import { TodoContext } from './TodoShell';
+import { useDispatch } from 'react-redux';
 
 const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
     
-    const { dispatch } = useContext(TodoContext);
-    
+    const dispatch  = useDispatch();
+
     const handleToggle = () => {
         dispatch({type: 'toggle', id: todo.id});
     };
@@ -21,7 +21,7 @@ const TodoItem: React.FC<{ todo: Todo }> = ({ todo }) => {
             <label>{ todo.title }</label>
             <button onClick={handleDestroy} className="destroy"></button>
           </div>
-          <input className="edit" value="Rule the web" />
+          <input className="edit" />
         </li>
     );
 };

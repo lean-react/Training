@@ -11,7 +11,7 @@ const getNextId = (): number => JSON.parse(localStorage.getItem('nextId') || '1'
 const saveTodos = (todos: Todo[]) => localStorage.setItem('todos', JSON.stringify(todos));
 const saveNextId = (id: number) => localStorage.setItem('nextId', JSON.stringify(id));
 
-const todosReducer = (state: TodoState, action: Action): TodoState => {
+const todosReducer = (state: TodoState = { todos: getTodos(), filter: VisibilityFilter.All }, action: Action): TodoState => {
     switch (action.type) {
         case 'create':
             const nextId = getNextId();
@@ -23,19 +23,19 @@ const todosReducer = (state: TodoState, action: Action): TodoState => {
             return { ...state, todos };
     
         case 'toggle': {
-            const todos = state.todos.map(t => t.id != action.id ? t : { ...t, completed: !t.completed } );
+            const todos = state.todos.map(t => t.id !== action.id ? t : { ...t, completed: !t.completed } );
             saveTodos(todos);
             return { ...state, todos };
         }
 
         case 'update': {
-            const todos = state.todos.map(t => t.id != action.id ? t : { ...t, title: action.title } );
+            const todos = state.todos.map(t => t.id !== action.id ? t : { ...t, title: action.title } );
             saveTodos(todos);
             return { ...state, todos };
         }
 
         case 'destroy': {
-            const todos = state.todos.filter(t => t.id != action.id );
+            const todos = state.todos.filter(t => t.id !== action.id );
             saveTodos(todos);
             return { ...state, todos };
         }
